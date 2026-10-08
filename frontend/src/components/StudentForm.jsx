@@ -8,7 +8,7 @@ function StudentForm({ student, onSave, onCancel }) {
     name: '',
     age: '',
     course: '',
-    status: 'active'
+    status: 'Ongoing'
   });
 
   useEffect(() => {
@@ -83,9 +83,8 @@ function StudentForm({ student, onSave, onCancel }) {
             onChange={handleChange}
             style={styles.input}
           >
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
-            <option value="inactive">Inactive</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Completed">Completed</option>
           </select>
         </div>
         <div style={styles.buttonGroup}>

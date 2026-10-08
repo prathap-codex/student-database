@@ -92,8 +92,8 @@ function StudentList() {
                 <td style={styles.tableCell}>
                   <span style={{
                     ...styles.statusBadge,
-                    backgroundColor: student.status === 'active' ? '#4CAF50' :
-                                   student.status === 'completed' ? '#2196F3' : '#f44336'
+                    backgroundColor: student.status === 'Ongoing' ? '#4CAF50' :
+                                   student.status === 'Completed' ? '#2196F3' : '#f44336'
                   }}>
                     {student.status}
                   </span>

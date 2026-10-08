@@ -20,7 +20,7 @@ const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   age: { type: Number, required: true },
   course: { type: String, required: true },
-  status: { type: String, default: 'active' }
+  status: { type: String, default: 'Ongoing', enum: ['Ongoing', 'Completed'] }
 });
 
 const Student = mongoose.model('Student', studentSchema);
