@@ -1,55 +1,64 @@
 # Student Management System
 
-A simple full-stack application to manage students with Add, Edit, and Delete functionality.
+A simple full-stack application to manage students with Add, Edit, and Delete functionality. Uses local MongoDB by default for easy development.
 
 ## Tech Stack
 
 - **Frontend**: React (Vite)
 - **Backend**: Node.js (Express)
-- **Database**: MongoDB Atlas
+- **Database**: MongoDB (Local or Atlas Cloud)
 
 ## Setup Instructions
 
-### 1. MongoDB Atlas Setup
+### Option 1: Local MongoDB (Recommended for Development)
 
-1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create a free account
-2. Create a new cluster (free tier)
-3. Create a database called `studentDB`
-4. Create a collection called `students`
-5. Set up database access:
-   - Click "Database Access" → "Add New Database User"
-   - Create username and password (save these!)
-6. Set up network access:
-   - Click "Network Access" → "Add IP Address"
-   - Add your current IP address or select "Allow Access from Anywhere" (0.0.0.0/0)
-7. Get connection string:
-   - Click "Connect" → "Connect your application"
-   - Copy the connection string
+#### Step 1: Install and Start MongoDB
 
-### 2. Backend Setup
+1. Install MongoDB Community Server from [mongodb.com](https://www.mongodb.com/try/download/community)
+2. Start MongoDB service:
+   - **Windows**: Run MongoDB as service or use `mongod` command
+   - **Mac**: `brew services start mongodb-community`
+   - **Linux**: `sudo systemctl start mongod`
+
+3. Verify MongoDB is running:
+   ```bash
+   mongosh
+   # or
+   mongo
+   ```
+
+#### Step 2: Backend Setup
 
 1. Navigate to backend folder:
    ```bash
    cd backend
    ```
 
-2. Copy the example env file and update it with your MongoDB connection string:
+2. Install dependencies:
    ```bash
-   cp .env.example .env
+   npm install
    ```
-   Then edit `.env` and replace:
-   - `<username>` with your MongoDB username
-   - `<password>` with your MongoDB password
-   - `cluster.mongodb.net` with your actual cluster address
 
-3. Start the backend server:
+3. Start the backend server (it will use local MongoDB by default):
    ```bash
    npm start
    ```
 
-The backend will run on `http://localhost:5000`
+The backend will run on `http://localhost:5000` and connect to `mongodb://localhost:27017/studentDB`
 
-**Note**: You must set up MongoDB Atlas first before running the backend. Without a valid MongoDB connection string, the backend will fail to start.
+### Option 2: MongoDB Atlas (Cloud Database)
+
+If you want to use cloud MongoDB instead:
+
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create a free account
+2. Create a new cluster (free tier)
+3. Create a database called `studentDB`
+4. Set up database access and network access
+5. Get connection string
+6. In `backend/.env`, add:
+   ```
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/studentDB?retryWrites=true&w=majority
+   ```
 
 ### 3. Frontend Setup
 
@@ -100,18 +109,21 @@ The frontend will run on `http://localhost:5173` (or another port if 5173 is in 
 
 ### Step 2: Deploy Backend to Render
 
-1. Go to [Render](https://render.com) and create an account
-2. Click "New +" → "Web Service"
-3. Connect your GitHub repository
-4. Configure:
+**Important**: For cloud deployment, you need MongoDB Atlas (cloud database) - local MongoDB won't work.
+
+1. First, set up MongoDB Atlas (see Option 2 above)
+2. Go to [Render](https://render.com) and create an account
+3. Click "New +" → "Web Service"
+4. Connect your GitHub repository
+5. Configure:
    - **Root Directory**: `backend`
    - **Build Command**: `npm install`
    - **Start Command**: `node server.js`
-5. Add Environment Variable:
+6. Add Environment Variable:
    - Key: `MONGODB_URI`
    - Value: Your MongoDB Atlas connection string
-6. Click "Deploy Web Service"
-7. Wait for deployment and copy the backend URL (e.g., `https://your-backend.onrender.com`)
+7. Click "Deploy Web Service"
+8. Wait for deployment and copy the backend URL (e.g., `https://your-backend.onrender.com`)
 
 ### Step 3: Deploy Frontend to Vercel
 
