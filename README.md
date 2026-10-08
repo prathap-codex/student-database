@@ -88,28 +88,51 @@ The frontend will run on `http://localhost:5173` (or another port if 5173 is in 
 
 ## Deployment
 
-### Frontend (Vercel)
+### Step 1: Push to GitHub
 
-1. Push code to GitHub
-2. Go to [Vercel](https://vercel.com)
-3. Click "Add New Project"
-4. Import your GitHub repository
-5. Select the `frontend` folder as root directory
-6. Click Deploy
+1. Create a new repository on GitHub
+2. Add the remote URL:
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+   git branch -M main
+   git push -u origin main
+   ```
 
-### Backend (Render)
+### Step 2: Deploy Backend to Render
 
-1. Go to [Render](https://render.com)
+1. Go to [Render](https://render.com) and create an account
 2. Click "New +" → "Web Service"
 3. Connect your GitHub repository
-4. Select the `backend` folder
-5. Add environment variable: `MONGODB_URI` (your MongoDB connection string)
-6. Click Deploy Web Service
+4. Configure:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
+5. Add Environment Variable:
+   - Key: `MONGODB_URI`
+   - Value: Your MongoDB Atlas connection string
+6. Click "Deploy Web Service"
+7. Wait for deployment and copy the backend URL (e.g., `https://your-backend.onrender.com`)
 
-After deployment:
-1. Copy your Render backend URL (e.g., `https://your-backend.onrender.com`)
-2. In Vercel, go to your project settings → Environment Variables
-3. Add `VITE_API_URL` with your backend URL
-4. Redeploy the frontend
+### Step 3: Deploy Frontend to Vercel
 
-This will update the API URL in your frontend automatically.
+1. Go to [Vercel](https://vercel.com) and create an account
+2. Click "Add New Project"
+3. Import your GitHub repository
+4. Configure:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+5. Add Environment Variable:
+   - Key: `VITE_API_URL`
+   - Value: Your Render backend URL (from Step 2)
+6. Click "Deploy"
+7. Wait for deployment and copy the frontend URL
+
+### Step 4: Test the Deployed App
+
+1. Open your Vercel frontend URL
+2. Test adding, editing, and deleting students
+3. Verify data persists in MongoDB Atlas
+
+**Note**: The first time you access the Render backend, it may take 30-60 seconds to wake up (cold start).
